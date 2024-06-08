@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ServiceController extends Controller
 {
-    public function home()
+    public function allServices()
     {
         $services = Service::paginate(25);
-        return view('home')->with([
+        return view('service.all')->with([
             'services' => $services
         ]);
     }
-
-
-
 }

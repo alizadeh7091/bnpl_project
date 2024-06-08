@@ -25,9 +25,21 @@
             <td>{{$_service->price}}</td>
             <td>{{$_service->phone}}</td>
             <td>{{$_service->address}}</td>
+            <td>
+                <form action="{{route('add.order',$_service->id)}}" method="post">
+                    <select name="status">
+                        <option value="active">active</option>
+                        <option value="cancelled">cancel</option>
+                    </select>
+                    <input type="text" placeholder="quantity" name="quantity">
+                    <button>submit</button>
+                    @csrf
+                </form>
+            </td>
         </tr>
     @endforeach
 </table>
+<br><br>
 {{$services->links()}}
 </body>
 

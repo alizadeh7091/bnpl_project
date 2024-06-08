@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name',32);
-            $table->unsignedBigInteger('price');
-            $table->char('phone',16);
-            $table->string('address',32);
-            $table->foreignId('provider_id')->constrained();
+            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('service_id')->constrained();
+            $table->unsignedBigInteger('quantity');
+            $table->unsignedBigInteger('total');
+            $table->enum('status',['active','cancelled']);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('orders');
     }
 };
