@@ -4,7 +4,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -36,14 +35,8 @@ Route::prefix('service')->group(function () {
     Route::get('/all', [ServiceController::class, 'allServices'])->name('all.services');
 });
 
-Route::prefix('cart')->group(function () {
-    Route::post('/add/{id}', [CartController::class, 'addToCart'])->name('add.to.cart');
-    Route::get('/all', [CartController::class, 'allCarts'])->name('all.carts');
-});
-
 Route::prefix('order')->group(function () {
-    Route::post('/add', [OrderController::class, 'addOrder'])->name('add.Order');
-//    Route::get('/all', [CartController::class, 'allCarts'])->name('all.orders');
+    Route::post('/add/{id}', [OrderController::class, 'addOrder'])->name('add.Order');
 });
 
 

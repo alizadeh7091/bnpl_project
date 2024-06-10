@@ -13,14 +13,15 @@
         {{--        <th>customer id</th>--}}
         <th>service id</th>
         <th>quantity</th>
+        <th>price</th>
         <th>action</th>
     </tr>
-    @php ($total_invoice = 0)
     @foreach ($carts as $_cart)
         <tr>
             <td>{{$_cart->id}}</td>
             <td>{{$_cart->service_id}}</td>
             <td>{{$_cart->quantity}}</td>
+            <td>{{$_cart->price}}</td>
             <td>
                 <form action="" method="post">
                     <button>delete</button>
@@ -28,10 +29,8 @@
                 </form>
             </td>
         </tr>
-        @php($total_invoice = $total_invoice + $_cart->total_price)
     @endforeach
 </table>
-<p>total_invoce = {{$total_invoice}}</p>
 <br><br>
 <form action="{{route('add.Order')}}" method="post">
     <select name="payment_type" id="">

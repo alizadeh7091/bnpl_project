@@ -2,39 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\Customer;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentType;
 use App\Models\Order;
-use App\Models\Order_detail;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Tests\Integration\Database\EloquentHasOneOfManyTest\State;
 
 class OrderController extends Controller
 {
-    public function addOrder(Request $request)
+    public function addOrder(Request $request,$id)
     {
+//        dd($id);
+        $service = Service::query()->findOrFail($id);
         $order = new Order();
-        $order->customer_id = 2;
-        $order->total_price = 20;
-        $order->payment_type = $request->input('payment_type');
-        $order->status = $request->input('status');
+        $order->customer_id = 1;
+        $order->service_id = $service->id;
+        $order->price = $service->price;
+        $order->payment_type = PaymentType::tryFrom($request->input('payment_type'));
+        $order->status = OrderStatus::tryFrom('active');
         $order->save();
 //        dd($order);
-        $carts = Cart::where('customer_id', 1)->get();
-        foreach ($carts as $_cart) {
-            Order_detail::create(
-                [
-                    'order_id' => $order->id,
-                    'service_id' => $_cart->service_id,
-                    'quantity' => $_cart->quantity,
-                ]
-            );
-            $cart_id = $_cart->id;
-            $cart = Cart::find($cart_id);
-            $cart->delete();
-        }
-        return redirect()->route('all.services');
     }
 }
 

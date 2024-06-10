@@ -8,8 +8,6 @@
 </head>
 
 <body>
-
-<br><br>
 <table>
     <tr>
         <th>id</th>
@@ -26,32 +24,19 @@
             <td>{{$_service->phone}}</td>
             <td>{{$_service->address}}</td>
             <td>
-                <form action="{{route('add.to.cart',$_service->id)}}" method="post">
-                    <input type="number" min="0" placeholder="quantity" name="quantity">
-                    <button>add</button>
+                <form action="{{route('add.Order',$_service->id)}}" method="post">
+                    <select name="payment_type" id="">
+                        <option value="30%_cash">30% cash</option>
+                        <option value="half_cash">half cash</option>
+                    </select>
+                    <button>reserve</button>
                     @csrf
                 </form>
             </td>
         </tr>
     @endforeach
 </table>
-<br><br>
-<a href="{{route('all.carts')}}">
-    <button>show carts</button></a>
-<br><br>
-{{--<form action="{{route('add.order',$_service->id)}}" method="post">--}}
-{{--    <select name="status">--}}
-{{--        <option value="active">active</option>--}}
-{{--        <option value="cancelled">cancel</option>--}}
-{{--    </select>--}}
-{{--    <select name="payment_type">--}}
-{{--        <option value="30%_cash">30% cash</option>--}}
-{{--        <option value="half_cash">half cash</option>--}}
-{{--        <option value="complete_cash">complete cash</option>--}}
-{{--    </select>--}}
-{{--    <button>submit</button>--}}
-{{--    @csrf--}}
-{{--</form>--}}
+
 <br><br>
 {{$services->links()}}
 </body>

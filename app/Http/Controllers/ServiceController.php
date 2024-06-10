@@ -9,7 +9,7 @@ class ServiceController extends Controller
 {
     public function allServices()
     {
-        $services = Service::paginate(25);
+        $services = Service::paginate(10);
         return view('service.all')->with([
             'services' => $services
         ]);
