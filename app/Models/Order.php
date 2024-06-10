@@ -8,8 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    public function order_details()
+    public function service()
     {
-        return $this->hasMany(order_detail::class);
+        return $this->hasOne(Service::class);
+    }
+    public function order_activities()
+    {
+        return $this->hasMany(Order_activity::class);
+    }
+    public function loan()
+    {
+        return $this->hasOne(Loan::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }
