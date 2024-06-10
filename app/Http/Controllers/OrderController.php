@@ -2,42 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Order_detail;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function allOrders()
+    public function addOrder(Request $request)
     {
-        $orders = Order::all();
-        return view('order.all')->with([
-            'orders' => $orders
-        ]);
-    }
-
-//    public function addOrder(Request $request, $id)
-//    {
-//        dd('hey');
-//    }
-    public function addOrder(Request $request, $id)
-    {
-//        dd($id);
-        $service = Service::find($id);
-//        dd($service);
         $order = new Order();
-        $order->customer_id = 1;
-//        dd($order->customer_id);
-        $order->service_id = $service->id;
-        $order->quantity = $request->input('quantity');
-        $order->total = ($service->price * $order->quantity);
+        $order->customer_id = 2;
+        $order->total_price = 20;
+        $order->payment_type = $request->input('payment_type');
         $order->status = $request->input('status');
         $order->save();
-//        dd($service);
-        return redirect()->route('all.orders');
+//        dd($order);
+        $carts = Cart::where('customer_id', 1)->get();
+        foreach ($carts as $_cart) {
+            Order_detail::create(
+                [
+                    'order_id' => $order->id,
+                    'service_id' => $_cart->service_id,
+                    'quantity' => $_cart->quantity,
+                ]
+            );
+            $cart_id = $_cart->id;
+            $cart = Cart::find($cart_id);
+            $cart->delete();
+        }
+        return redirect()->route('all.services');
     }
 }
+
+
+
+
 
 
 
