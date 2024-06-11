@@ -10,22 +10,29 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function payment($loan_id, $customer_id)
+    public function viewPayment()
     {
-        $loan = Loan::query()->findOrFail($loan_id);
-//        dd($loan);
-        $transaction = Transaction::where('customer_id', $customer_id)->get();
-
-        Payment::query()->create(
+        $installments = Payment::all();
+        return view('payment')->with(
             [
-                'loan_id' => $loan_id,
-                'transaction_id' => $transaction->id,
-                'installment_number' => 1,
-                'installment_amount' => 1000,
-                'due_date' => date(2025 / 01 / 01),
-                'pay_date' => $transaction->created_at,
+                'installments' => $installments,
+
             ]
         );
+    }
+
+    public function storePayment(Request $request,$id)
+    {
+        $validated = $request->validate(
+            [
+                'amount' => ['required', 'max:32'],
+            ]
+        );
+        $installment = Payment::query()->findOrFail($id);
+        $amount = $request->input('amount');
+        $attr = ['installment'=>$amount];
+        $installment->update($attr);
+        return redirect()->route('all.services');
     }
 }
 

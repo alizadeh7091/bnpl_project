@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('loan_id')->constrained();
-            $table->foreignId('transaction_id')->constrained();
-            $table->unsignedInteger('installment_number');
-            $table->unsignedInteger('installment_amount');
+            $table->unsignedBigInteger('installment_number');
+            $table->unsignedBigInteger('installment_amount');
             $table->date('due_date');
-            $table->date('pay_date');
+            $table->unsignedBigInteger('payment_amount')->nullable();
+            $table->date('pay_date')->nullable();
+            $table->unsignedBigInteger('delay_penalty')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

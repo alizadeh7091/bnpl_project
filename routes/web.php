@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PaymentController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -40,8 +40,9 @@ Route::prefix('order')->group(function () {
     Route::post('/add/{id}', [OrderController::class, 'addOrder'])->name('add.Order');
 });
 
-Route::prefix('transaction')->group(function (){
-    Route::get('/add/{id}',[TransactionController::class,'addTransaction'])->name('add.transaction');
+Route::prefix('payment')->group(function (){
+    Route::get('/add',[PaymentController::class,'viewPayment']);
+    Route::put('/store/{id}',[PaymentController::class,'storePayment'])->name('store.payment');
 });
 
 

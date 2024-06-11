@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    protected $fillable = ['customer_id','service_id','price','payment_type','status'];
     public function service()
     {
         return $this->hasOne(Service::class);
