@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentType;
+use App\Models\Installment;
 use App\Models\Loan;
 use App\Models\Order;
 use App\Models\Order_activity;
@@ -16,8 +17,7 @@ class OrderController extends Controller
     private function addInstallments($installment_count, $start_date,$loan)
     {
         for ($i = 0; $i < $installment_count; $i++) {
-//            $due_date = date('y-m-d',strtotime("+1 month", $start_date));
-            Payment::query()->create(
+            Installment::query()->create(
                 [
                     'loan_id' => $loan->id,
                     'installment_number'=> $i+1,

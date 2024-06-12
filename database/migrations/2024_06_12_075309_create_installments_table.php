@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('installments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('loan_id')->constrained();
             $table->unsignedBigInteger('installment_number');
@@ -22,12 +22,14 @@ return new class extends Migration
             $table->unsignedBigInteger('delay_penalty')->nullable();
             $table->timestamps();
         });
+
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('installments');
     }
 };

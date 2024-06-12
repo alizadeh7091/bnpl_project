@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Installment;
 use App\Models\Loan;
-use App\Models\Payment;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class InstallmentController extends Controller
 {
-    public function viewPayment()
+    public function viewInstallments()
     {
-        $installments = Payment::all();
-        return view('payment')->with(
+        $installments = Installment::all();
+        return view('installment')->with(
             [
                 'installments' => $installments,
 
@@ -28,10 +27,8 @@ class PaymentController extends Controller
                 'amount' => ['required', 'max:32'],
             ]
         );
-        $installment = Payment::query()->findOrFail($id);
-        $amount = $request->input('amount');
-        $attr = ['installment'=>$amount];
-        $installment->update($attr);
+        Installment::query()->where('id',$id)
+            ->update(['payment_amount'=>$request->input('amount')]);
         return redirect()->route('all.services');
     }
 }
