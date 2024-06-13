@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Installment;
-use App\Models\Loan;
-use Illuminate\Http\Request;
 
 class InstallmentController extends Controller
 {
+    public function addInstallments($installment_count, $start_date, $loan)
+    {
+        for ($i = 0; $i < $installment_count; $i++) {
+            Installment::query()->create(
+                [
+                    'loan_id' => $loan->id,
+                    'installment_number' => $i + 1,
+                    'installment_amount' => $loan->installment_amount,
+                    'due_date' => $start_date,
+                ]
+            );
+            $start_date = date('y-m-d', strtotime("+1 month", strtotime($start_date)));
+        }
+    }
+
     public function viewInstallments()
     {
-        $installments = Installment::all();
+        $installments = Installment::query()->where('pay_date', null)->get();
         return view('installment')->with(
             [
                 'installments' => $installments,
-
             ]
         );
     }
 
-    public function storePayment(Request $request,$id)
-    {
-        $validated = $request->validate(
-            [
-                'amount' => ['required', 'max:32'],
-            ]
-        );
-        Installment::query()->where('id',$id)
-            ->update(['payment_amount'=>$request->input('amount')]);
-        return redirect()->route('all.services');
-    }
 }
 

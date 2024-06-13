@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OrderController;
@@ -23,13 +23,10 @@ Route::get('/user/{user}', function (User $user) {
     return $user;
 });
 
-//Route::get('/', [HomeController::class, 'home'])->name('home');
-
 Route::prefix('customer')->group(function () {
     Route::get('/register', [CustomerController::class, 'registerCustomer'])->name('register.customer');
     Route::post('/store', [CustomerController::class, 'storeCustomer'])->name('store.customer');
     Route::get('/login', [CustomerController::class, 'loginCustomer'])->name('login.customer');
-//    Route::post();
 });
 
 Route::prefix('service')->group(function () {
@@ -42,8 +39,9 @@ Route::prefix('order')->group(function () {
 
 Route::prefix('installment')->group(function (){
     Route::get('/add',[InstallmentController::class,'viewInstallments']);
-    Route::put('/store/{id}',[InstallmentController::class,'storePayment'])->name('store.payment');
+
 });
+Route::put('/store/{id}',[PaymentController::class,'storePayment'])->name('store.payment');
 
 
 

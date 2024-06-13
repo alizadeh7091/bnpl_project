@@ -15,16 +15,26 @@ class CustomerController extends Controller
 
     public function storeCustomer(Request $request)
     {
-//        dd($request);
-        $customer = new Customer();
-        $customer->name = $request->input('name');
-//        dd($customer->name);
-        $customer->family = $request->input('family');
-        $customer->email = $request->input('email');
-        $customer->password = $request->input('password');
-        $customer->phone = $request->input('phone');
-        $customer->address = $request->input('address');
-        $customer->save();
+        $validated = $request->validate(
+            [
+                'name' => ['required','max:32'],
+                'family' => ['required','max:32'],
+                'email' =>  ['required','max:32'],
+                'password' => ['required','max:16','min:8'],
+                'phone' => ['min:11','max:16'],
+                'address' => ['max:255']
+            ]
+        );
+        Customer::query()->create(
+            [
+                'name' => $request->input('name'),
+                'family' => $request->input('family'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address')
+            ]
+        );
         return redirect()->route('all.services');
     }
 

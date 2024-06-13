@@ -13,7 +13,7 @@
         <td>installment number</td>
         <td>installment amount</td>
         <td>due date</td>
-        <td>payment amount</td>
+{{--        <td>payment amount</td>--}}
     </tr>
    @foreach($installments as $_installment)
         <tr>
@@ -24,8 +24,8 @@
                 <form action="{{route('store.payment',$_installment->id)}}" method="post">
                     @method('put')
                     @csrf
-                    <input type="number" name="amount">
-                    <button>submit</button>
+{{--                    <input type="number" name="amount">--}}
+                    <button>pay</button>
                 </form>
             </td>
 

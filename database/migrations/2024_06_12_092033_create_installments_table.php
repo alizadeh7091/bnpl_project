@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('installment_number');
             $table->unsignedBigInteger('installment_amount');
             $table->date('due_date');
-            $table->unsignedBigInteger('payment_amount')->nullable();
             $table->date('pay_date')->nullable();
             $table->unsignedBigInteger('delay_penalty')->nullable();
             $table->timestamps();
